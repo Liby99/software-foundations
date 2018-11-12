@@ -192,6 +192,9 @@ beautify: $(VFILES:=.beautified)
 
 .PHONY: all archclean beautify byte clean cleanall gallina gallinahtml html install install-doc install-natdynlink install-toploop opt printenv quick uninstall userinstall validate vio2vo
 
+print-includes:
+	@echo ""
+
 ####################
 #                  #
 # Special targets. #
