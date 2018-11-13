@@ -61,7 +61,10 @@ Proof.
 Theorem plus_one_r' : forall n:nat,
   n + 1 = S n.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros. induction n.
+  - simpl. reflexivity.
+  - simpl. rewrite <- IHn. reflexivity.
+Qed.
 (** [] *)
 
 (** Coq generates induction principles for every datatype defined with
