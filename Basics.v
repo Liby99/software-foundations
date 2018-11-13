@@ -743,14 +743,20 @@ Proof.
     that [0] is also a neutral element for [+] _on the right_. *)
 
 Theorem plus_n_O : forall n, n = n + 0.
-Proof.
-  intros n. simpl. (* Doesn't do anything! *)
-(** (Can you explain why this happens?  Step through both proofs
+Proof. 
+  (* intros n. simpl. *) (* Doesn't do anything! *)
+  (** (Can you explain why this happens?  Step through both proofs
     with Coq and notice how the goal and context change.)
 
     When stuck in the middle of a proof, we can use the [Abort]
     command to give up on it for the moment. *)
-Abort.
+  (* Abort. *)
+
+(* PB9001: Rewriting this part to get rid of the Abort *)
+  intros. induction n.
+  - reflexivity.
+  - simpl. rewrite <- IHn. reflexivity.
+Qed.
 
 (** The next chapter will introduce _induction_, a powerful
     technique that can be used for proving this goal.  For the moment,
@@ -865,12 +871,14 @@ Proof.
     simplification.  For example, if we try to prove the following
     fact using the [simpl] tactic as above, we get stuck. *)
 
+(* PB9001: Commenting out this part again to get rid of Abort 
 Theorem plus_1_neq_0_firsttry : forall n : nat,
   beq_nat (n + 1) 0 = false.
 Proof.
   intros n.
-  simpl.  (* does nothing! *)
+  simpl.
 Abort.
+*)
 
 (** The reason for this is that the definitions of both
     [beq_nat] and [+] begin by performing a [match] on their first
