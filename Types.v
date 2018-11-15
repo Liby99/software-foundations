@@ -378,7 +378,28 @@ Proof with auto.
     + (* t1 can take a step *)
       inversion H as [t1' H1].
       exists (tif t1' t2 t3)...
-  (* FILL IN HERE *) Admitted.
+  - inversion IHHT.
+    + left. unfold value. right.
+      apply nv_scc. apply nat_canonical. apply HT. apply H.
+    + right. inversion H. exists (scc x). Search scc. apply ST_Scc. 
+      apply H0.
+  - inversion IHHT.
+    + assert (nvalue t1).
+      { apply nat_canonical. apply HT. apply H. }
+      inversion H0. right. exists zro.  apply ST_PrdZro.
+      right. Search prd. exists t. apply ST_PrdScc.  apply H1.
+    + right. Search prd. inversion H. exists (prd x).  apply ST_Prd. 
+      apply H0.
+  - inversion IHHT. 
+    + assert (nvalue t1).
+      { apply nat_canonical. apply HT. apply H. }
+      inversion H0.
+      * right. Search iszro. exists tru. apply ST_IszroZro.
+      * right. Search iszro. exists tru. apply ST_IszroZro.
+      apply H1.
+    + right. inversion H. exists (iszro x). apply ST_Iszro.
+      apply H0.
+Qed.
 (** [] *)
 
 (** **** Exercise: 3 stars, advancedM (finish_progress_informal)  *)

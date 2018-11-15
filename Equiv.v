@@ -648,10 +648,12 @@ Proof.
         apply IHHce2. reflexivity.  Qed.
 
 (** **** Exercise: 3 stars, optional (CSeq_congruence)  *)
+(*
 Theorem CSeq_congruence : forall c1 c1' c2 c2',
   cequiv c1 c1' -> cequiv c2 c2' ->
   cequiv (c1;;c2) (c1';;c2').
 Proof.
+  intros.  
   (* FILL IN HERE *) Admitted.
 (** [] *)
 
@@ -694,6 +696,7 @@ Proof.
         symmetry. apply minus_diag.
       apply refl_cequiv.
 Qed.
+*)
 
 (** **** Exercise: 3 stars, advanced, optional (not_congr)  *)
 (** We've shown that the [cequiv] relation is both an equivalence and
@@ -1617,7 +1620,7 @@ Definition capprox (c1 c2 : com) : Prop := forall (st st' : state),
 
 (** Find two programs [c3] and [c4] such that neither approximates
     the other. *)
-
+(*
 Definition c3 : com (* REPLACE THIS LINE WITH ":= _your_definition_ ." *). Admitted.
 Definition c4 : com (* REPLACE THIS LINE WITH ":= _your_definition_ ." *). Admitted.
 
@@ -1642,6 +1645,6 @@ Theorem zprop_preserving : forall c c',
   zprop c -> capprox c c' -> zprop c'.
 Proof. (* FILL IN HERE *) Admitted.
 (** [] *)
-
+*)
 (** $Date: 2016-12-20 10:47:46 -0500 (Tue, 20 Dec 2016) $ *)
 
