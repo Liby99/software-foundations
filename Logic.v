@@ -406,7 +406,7 @@ Qed.
 Fact not_implies_our_not : forall (P:Prop),
   ~ P -> (forall (Q:Prop), P -> Q).
 Proof.
-  intros. unfold not in H. apply H in H0. discriminate.
+  intros. unfold not in H. apply H in H0. destruct H0.
 Qed.
 (** [] *)
 
@@ -601,8 +601,8 @@ Qed.
 Theorem or_distributes_over_and : forall P Q R : Prop,
   P \/ (Q /\ R) <-> (P \/ Q) /\ (P \/ R).
 Proof.
-  intros. unfold iff. split. 
-  - intros. destruct H. split.
+  intros. unfold iff. split.
+  - intros. destruct H.
     + split.
       * left. apply H.
       * left. apply H.
