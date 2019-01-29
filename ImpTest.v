@@ -90,7 +90,7 @@ idtac "Entering exercise ceval_example2 (standard): 2 points".
 idtac " ".
 
 idtac "#> ceval_example2".
-check_type @ceval_example2 ((X ::= ANum 0 ;; Y ::= ANum 1 ;; Z ::= ANum 2)/ empty_state \\(t_update(t_update(t_update empty_state X 0)Y 1)Z 2)).
+check_type @ceval_example2 ((X ::= ANum 0 ;; Y ::= ANum 1 ;; W ::= ANum 2)/ empty_state \\(t_update(t_update(t_update empty_state X 0)Y 1)W 2)).
 idtac "Assumptions:".
 Abort.
 Print Assumptions ceval_example2.

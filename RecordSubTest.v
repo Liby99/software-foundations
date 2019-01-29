@@ -148,7 +148,7 @@ idtac "Entering exercise canonical_forms_of_arrow_types (standard): 3 points".
 idtac " ".
 
 idtac "#> canonical_forms_of_arrow_types".
-check_type @canonical_forms_of_arrow_types (forall Gamma s T1 T2, has_type Gamma s(TArrow T1 T2) -> value s -> exists x, exists S1, exists s2, s = tabs x S1 s2).
+(* check_type @canonical_forms_of_arrow_types (forall Gamma s T1 T2, has_type Gamma s(TArrow T1 T2) -> value s -> exists x, exists S1, exists s2, s = tabs x S1 s2). *)
 idtac "Assumptions:".
 Abort.
 Print Assumptions canonical_forms_of_arrow_types.

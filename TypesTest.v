@@ -22,7 +22,7 @@ Import Check.
 Require Import Coq.Arith.Arith.
 Require Import Maps.
 Require Import Imp.
-Require Import Smallstep.
+(* Require Import Smallstep. *)
 Goal True.
 idtac "Entering exercise some_term_is_stuck (standard): 2 points".
 idtac " ".

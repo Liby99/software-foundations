@@ -129,8 +129,15 @@ Theorem skip_right: forall c,
     (c ;; SKIP)
     c.
 Proof.
-  (* FILL IN HERE *) Admitted.
-(** [] *)
+  intros c st st'.
+  split ; intros H.
+  - inversion H. subst.
+    inversion H5. subst.
+    assumption.
+  - apply E_Seq with st'.
+    + assumption.
+    +  apply E_Skip.
+Qed.
 
 (** Similarly, here is a simple transformation that optimizes [IFB]
     commands: *)
@@ -216,8 +223,20 @@ Theorem IFB_false: forall b c1 c2,
     (IFB b THEN c1 ELSE c2 FI)
     c2.
 Proof.
-  (* FILL IN HERE *) Admitted.
-(** [] *)
+  intros. split.
+  + intros.
+    unfold bequiv in H.
+    specialize (H st).
+    inversion H0; subst.
+    *  rewrite H in H6.
+       inversion H6.
+    * assumption.
+  + intros.
+    unfold bequiv in H.
+    specialize (H st).
+    inversion H.
+    apply E_IfFalse ; assumption.
+Qed.
 
 (** **** Exercise: 3 stars (swap_if_branches)  *)
 (** Show that we can swap the branches of an IF if we also negate its
@@ -228,14 +247,34 @@ Theorem swap_if_branches: forall b e1 e2,
     (IFB b THEN e1 ELSE e2 FI)
     (IFB BNot b THEN e2 ELSE e1 FI).
 Proof.
-  (* FILL IN HERE *) Admitted.
-(** [] *)
+  unfold cequiv.
+  split ; intros.
+  + remember (beval st b) as b_val.
+    destruct b_val.
+    * apply E_IfFalse.
+      simpl. unfold negb. rewrite <- Heqb_val. reflexivity.
+      inversion H; auto. subst.
+      rewrite <- Heqb_val in H5.
+      discriminate H5.
+    * apply E_IfTrue.
+      - simpl. unfold negb. rewrite <- Heqb_val. reflexivity.
+      - inversion H; auto. subst.
+        rewrite <- Heqb_val in H5.
+        discriminate H5.
+  + remember (beval st b) as b_val.
+    destruct b_val.
+    * apply E_IfTrue ; auto.
+      inversion H ; subst; auto.
+      simpl in H5. unfold negb in H5.
+      rewrite <- Heqb_val in H5.
+      inversion H5.
+    * apply E_IfFalse ; auto.
+      inversion H ; subst ; auto.
+      simpl in H5. unfold negb in H5.
+      rewrite <- Heqb_val in H5.
+      inversion H5.
+Qed.
 
-(** For [WHILE] loops, we can give a similar pair of theorems.  A loop
-    whose guard is equivalent to [BFalse] is equivalent to [SKIP],
-    while a loop whose guard is equivalent to [BTrue] is equivalent to
-    [WHILE BTrue DO SKIP END] (or any other non-terminating program).
-    The first of these facts is easy. *)
 
 Theorem WHILE_false : forall b c,
   bequiv b BFalse ->
@@ -325,8 +364,19 @@ Theorem WHILE_true: forall b c,
     (WHILE b DO c END)
     (WHILE BTrue DO SKIP END).
 Proof.
-  (* FILL IN HERE *) Admitted.
-(** [] *)
+  unfold cequiv. intros.
+  split.
+  intros.
+  apply WHILE_true_nonterm with (c := c) (st := st) (st' := st') in H.
+  apply H in H0. destruct H0.
+  intros.
+  assert (bequiv BTrue BTrue).
+  unfold bequiv.
+  intros. reflexivity.
+  apply WHILE_true_nonterm with (c := SKIP) (st := st) (st' := st') in H1.
+  apply H1 in H0.
+  destruct H0.
+Qed.
 
 (** A more interesting fact about [WHILE] commands is that any finite
     number of copies of the body can be "unrolled" without changing
@@ -648,13 +698,20 @@ Proof.
         apply IHHce2. reflexivity.  Qed.
 
 (** **** Exercise: 3 stars, optional (CSeq_congruence)  *)
-(*
 Theorem CSeq_congruence : forall c1 c1' c2 c2',
   cequiv c1 c1' -> cequiv c2 c2' ->
   cequiv (c1;;c2) (c1';;c2').
 Proof.
-  intros.  
-  (* FILL IN HERE *) Admitted.
+  unfold cequiv in *.
+  intros.
+  specialize (H st st').
+  specialize (H0 st st').
+  split.
+  + intros. induction H1.
+    *  auto.
+  inversion H.
+(* FILL IN HERE *) Admitted.
+
 (** [] *)
 
 (** **** Exercise: 3 stars (CIf_congruence)  *)
@@ -696,7 +753,7 @@ Proof.
         symmetry. apply minus_diag.
       apply refl_cequiv.
 Qed.
-*)
+
 
 (** **** Exercise: 3 stars, advanced, optional (not_congr)  *)
 (** We've shown that the [cequiv] relation is both an equivalence and
@@ -1647,4 +1704,3 @@ Proof. (* FILL IN HERE *) Admitted.
 (** [] *)
 *)
 (** $Date: 2016-12-20 10:47:46 -0500 (Tue, 20 Dec 2016) $ *)
-

@@ -151,7 +151,7 @@ Qed.
 Example and_exercise :
   forall n m : nat, n + m = 0 -> n = 0 /\ m = 0.
 Proof.
-  intros. induction m. 
+  intros. induction m.
   * induction n.
     - split.
       + reflexivity.
@@ -159,7 +159,7 @@ Proof.
     - split.
       + discriminate.
       + reflexivity.
-  * induction n. 
+  * induction n.
     - split.
       + reflexivity.
       + discriminate.
@@ -257,7 +257,7 @@ Proof.
   split.
     - (* left *) apply HQ.
     - (* right *) apply HP.  Qed.
-  
+
 (** **** Exercise: 2 stars (and_assoc)  *)
 (** (In the following proof of associativity, notice how the _nested_
     intro pattern breaks the hypothesis [H : P /\ (Q /\ R)] down into
@@ -392,7 +392,7 @@ Theorem ex_falso_quodlibet : forall (P:Prop),
 Proof.
   (* WORKED IN CLASS *)
   intros P contra.
-  destruct contra.  
+  destruct contra.
 Qed.
 
 (** The Latin _ex falso quodlibet_ means, literally, "from falsehood
@@ -582,7 +582,7 @@ Qed.
 Theorem iff_refl : forall P : Prop,
   P <-> P.
 Proof.
-  intros. unfold iff. split. 
+  intros. unfold iff. split.
   - intros. apply H.
   - intros. apply H.
 Qed.
@@ -612,7 +612,7 @@ Proof.
   - intros. destruct H. destruct H.
     + left. apply H.
     + destruct H0.
-      * left. apply H0. 
+      * left. apply H0.
       * right. split.
         { apply H. }
         { apply H0. }
@@ -831,9 +831,9 @@ Proof.
         - apply proj1 in H2. apply H2.
         - simpl. right. apply proj2 in H2. apply H2. }
   - (* <- *) intros H. induction l as [| x' l' IHl'].
-    + (* l = [] *) simpl in H. destruct H as [x' H]. apply proj2 in H. 
+    + (* l = [] *) simpl in H. destruct H as [x' H]. apply proj2 in H.
       contradiction.
-    + (* l = x' :: l' *) simpl. simpl in H. destruct H as [x'' H]. 
+    + (* l = x' :: l' *) simpl. simpl in H. destruct H as [x'' H].
       inversion H. destruct H1 as [H2 | H3].
       { left. rewrite H2. apply H0. }
       { right. apply IHl'. exists x''. split.
@@ -1178,17 +1178,17 @@ Definition tr_rev {X} (l : list X) : list X :=
     call); a decent compiler will generate very efficient code in this
     case.  Prove that the two definitions are indeed equivalent. *)
 
-Lemma append_list: forall X (l1 l2 : list X) (x: X), 
+Lemma append_list: forall X (l1 l2 : list X) (x: X),
   (l1 ++ [x]) ++ l2 = l1 ++ (x :: l2).
-Proof. 
+Proof.
   intros. simpl. induction l1.
   - reflexivity.
   - simpl. rewrite -> IHl1. reflexivity.
 Qed.
 
-Lemma rev_app_rule: forall X (l1 l2 : list X) (x: X), 
+Lemma rev_app_rule: forall X (l1 l2 : list X) (x: X),
   rev_append (x :: l1) l2  = (rev l1) ++ (x :: l2).
-Proof. 
+Proof.
   intros X l1. induction l1 as [|a l1'].
   - intros. simpl. reflexivity.
   - intros. simpl in IHl1'. simpl.
@@ -1200,8 +1200,8 @@ Qed.
 Lemma tr_rev_correct : forall X, @tr_rev X = @rev X.
 Proof.
   intros. apply functional_extensionality. intros l. induction l.
-  + reflexivity. 
-  + simpl. unfold tr_rev. unfold tr_rev in IHl. 
+  + reflexivity.
+  + simpl. unfold tr_rev. unfold tr_rev in IHl.
     apply (rev_app_rule X l []).
 Qed.
 (** [] *)
@@ -1368,7 +1368,7 @@ Proof.
   - split. intros. left. reflexivity. reflexivity.
   - split. left. reflexivity. reflexivity.
   - split. right. reflexivity. reflexivity.
-  - split. discriminate. intros. destruct H. discriminate H. 
+  - split. discriminate. intros. destruct H. discriminate H.
     discriminate H.
 Qed.
 (** [] *)
@@ -1382,7 +1382,7 @@ Theorem beq_nat_false_iff : forall x y : nat,
   beq_nat x y = false <-> x <> y.
 Proof.
   intros x y. unfold not. split.
-  - (* -> *) intros H0 H1. apply beq_nat_true_iff in H1. rewrite H1 in H0. 
+  - (* -> *) intros H0 H1. apply beq_nat_true_iff in H1. rewrite H1 in H0.
     inversion H0.
   - (* <- *) intros H. induction x as [| x'].
     + induction y as [| y'].
@@ -1427,7 +1427,7 @@ Proof.
       { simpl. intros H1. destruct (beq h1 h2) eqn:Heq.
         + apply H in Heq. rewrite <- Heq.
           assert (l1' = l2' -> h1 :: l1' = h1 :: l2') as H2.
-          { intros H3. rewrite H3. reflexivity. } apply H2. apply IHl1'. 
+          { intros H3. rewrite H3. reflexivity. } apply H2. apply IHl1'.
           apply H1.
         + inversion H1. }
   - (* <- *) generalize dependent l2. induction l1 as [| h1 l1' IHl1'].
@@ -1439,7 +1439,7 @@ Proof.
       { simpl. intros H1. destruct (beq h1 h2) eqn:Heq.
         + apply IHl1'. apply H in Heq. rewrite Heq in H1.
           assert (h1 :: l1' = h1 :: l2' -> l1' = l2') as H2.
-          { intros H3. inversion H1. reflexivity. } apply H2. rewrite Heq. 
+          { intros H3. inversion H1. reflexivity. } apply H2. rewrite Heq.
           apply H1.
         + inversion H1. apply H in H2. rewrite H2 in Heq. symmetry. apply Heq. }
 Qed.
@@ -1465,9 +1465,9 @@ Proof.
   - (* -> *) intros. induction l.
     + simpl. auto.
     + simpl. split.
-      { unfold forallb in H. rewrite andb_true_iff in H. apply proj1 in H. 
+      { unfold forallb in H. rewrite andb_true_iff in H. apply proj1 in H.
         assumption. }
-      { apply IHl. inversion H. rewrite andb_true_iff in H1. 
+      { apply IHl. inversion H. rewrite andb_true_iff in H1.
         destruct H1 as [H2 H3]. rewrite H2. rewrite H3. auto. }
   - (* <- *) intros. induction l.
     + reflexivity.

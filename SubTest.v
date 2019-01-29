@@ -20,8 +20,8 @@ Require Import Sub.
 Import Check.
 
 Require Import Maps.
-Require Import Types.
-Require Import Smallstep.
+(* Require Import Types. *)
+(* Require Import Smallstep. *)
 Goal True.
 idtac "Entering exercise arrow_sub_wrong (standard): 2 points".
 idtac " ".

@@ -153,7 +153,7 @@ Hint Constructors step.
 (** Notice that the [step] relation doesn't care about whether
     expressions make global sense -- it just checks that the operation
     in the _next_ reduction step is being applied to the right kinds
-    of operands.  For example, the term [succ true] (i.e., 
+    of operands.  For example, the term [succ true] (i.e.,
     [tsucc ttrue] in the formal syntax) cannot take a step, but the
     almost as obviously nonsensical term
 
@@ -235,7 +235,7 @@ Inductive ty : Type :=
     relations where one or more additional "context" arguments are
     written to the left of the turnstile.  For the moment, the context
     is always empty. *)
-(** 
+(**
                            ----------------                            (T_True)
                            |- true \in Bool
 
@@ -380,24 +380,24 @@ Proof with auto.
       exists (tif t1' t2 t3)...
   - inversion IHHT.
     + left. unfold value. right.
-      apply nv_scc. apply nat_canonical. apply HT. apply H.
-    + right. inversion H. exists (scc x). Search scc. apply ST_Scc. 
+      apply nv_succ. apply nat_canonical. apply HT. apply H.
+    + right. inversion H. exists (tsucc x). Search tsucc. apply ST_Succ.
       apply H0.
   - inversion IHHT.
     + assert (nvalue t1).
       { apply nat_canonical. apply HT. apply H. }
-      inversion H0. right. exists zro.  apply ST_PrdZro.
-      right. Search prd. exists t. apply ST_PrdScc.  apply H1.
-    + right. Search prd. inversion H. exists (prd x).  apply ST_Prd. 
+      inversion H0. right. exists tzero. apply ST_PredZero.
+      right. Search pred. exists t. apply ST_PredSucc. apply H1.
+    + right. Search pred. inversion H. exists (tpred x). apply ST_Pred.
       apply H0.
-  - inversion IHHT. 
-    + assert (nvalue t1).
+  - inversion IHHT.
+    + assert (nvalue t1).
       { apply nat_canonical. apply HT. apply H. }
       inversion H0.
-      * right. Search iszro. exists tru. apply ST_IszroZro.
-      * right. Search iszro. exists tru. apply ST_IszroZro.
+      * right. Search tiszero. exists ttrue. apply ST_IszeroZero.
+      * right. Search tiszero. exists tfalse. apply ST_IszeroSucc.
       apply H1.
-    + right. inversion H. exists (iszro x). apply ST_Iszro.
+    + right. inversion H. exists (tiszero x). apply ST_Iszero.
       apply H0.
 Qed.
 (** [] *)
@@ -554,7 +554,7 @@ Module NormalizePlayground.
 Import Smallstep.
 
 Example step_example1 :
-  (P (C 3) (P (C 3) (C 4))) 
+  (P (C 3) (P (C 3) (C 4)))
   ==>* (C 10).
 Proof.
   apply multi_step with (P (C 3) (C 7)).
@@ -594,7 +594,7 @@ Tactic Notation "normalize" :=
   apply multi_refl.
 
 Example step_example1'' :
-  (P (C 3) (P (C 3) (C 4))) 
+  (P (C 3) (P (C 3) (C 4)))
   ==>* (C 10).
 Proof.
   normalize.
@@ -602,7 +602,7 @@ Proof.
      a trace of how the expression reduced...
          (P (C 3) (P (C 3) (C 4)) ==>* C 10)
          (P (C 3) (C 7) ==>* C 10)
-         (C 10 ==>* C 10)                      
+         (C 10 ==>* C 10)
   *)
 Qed.
 
@@ -624,7 +624,7 @@ Qed.
 
 (** **** Exercise: 1 star (normalize_ex)  *)
 Theorem normalize_ex : exists e',
-  (P (C 3) (P (C 2) (C 1))) 
+  (P (C 3) (P (C 2) (C 1)))
   ==>* e'.
 Proof.
   (* FILL IN HERE *) Admitted.
@@ -634,7 +634,7 @@ Proof.
 (** For comparison, prove it using [apply] instead of [eapply]. *)
 
 Theorem normalize_ex' : exists e',
-  (P (C 3) (P (C 2) (C 1))) 
+  (P (C 3) (P (C 2) (C 1)))
   ==>* e'.
 Proof.
   (* FILL IN HERE *) Admitted.
