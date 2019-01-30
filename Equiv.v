@@ -702,15 +702,16 @@ Theorem CSeq_congruence : forall c1 c1' c2 c2',
   cequiv c1 c1' -> cequiv c2 c2' ->
   cequiv (c1;;c2) (c1';;c2').
 Proof.
-  unfold cequiv in *.
-  intros.
-  specialize (H st st').
-  specialize (H0 st st').
-  split.
-  + intros. induction H1.
-    *  auto.
-  inversion H.
-(* FILL IN HERE *) Admitted.
+  unfold cequiv. split ; intros.
+  * inversion H1. subst.
+    apply H in H4.
+    apply H0 in H7.
+    apply E_Seq with (st' := st'0) ; auto.
+  * inversion H1. subst.
+    apply H in H4.
+    apply H0 in H7.
+    apply E_Seq with (st' := st'0) ; auto.
+Qed.
 
 (** [] *)
 
@@ -720,7 +721,28 @@ Theorem CIf_congruence : forall b b' c1 c1' c2 c2',
   cequiv (IFB b THEN c1 ELSE c2 FI)
          (IFB b' THEN c1' ELSE c2' FI).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  unfold cequiv in *. split ; intros.
+  * inversion H2 ; subst.
+    + apply H0 in H9.
+      unfold bequiv in H.
+      specialize (H st).
+      rewrite H in H8.
+      apply E_IfTrue ; auto.
+    + apply H1 in H9.
+      unfold bequiv in H.
+      specialize (H st).
+      rewrite H in H8.
+      apply E_IfFalse ; auto.
+  * inversion H2 ; subst ; unfold bequiv in H.
+    + specialize (H st).
+      rewrite <- H in H8.
+      apply H0 in H9.
+      apply E_IfTrue ; auto.
+    + apply H1 in H9.
+      specialize (H st).
+      rewrite <- H in H8.
+      apply E_IfFalse ; auto.
+Qed.
 (** [] *)
 
 (** For example, here are two equivalent programs and a proof of their
